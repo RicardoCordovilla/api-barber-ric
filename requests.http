@@ -1,0 +1,14 @@
+# baseUrl = {{$https://api-barber-ric-production.up.railway.app/api/}}
+
+# Register a new user
+POST https://api-barber-ric-production.up.railway.app/api/auth/register
+Content-Type: application/json
+
+ {
+    "name": "Angelo",
+    "email": "angelo@email.com",
+    "password": "123456"
+  }
+
+# Get products
+# https://api-barber-ric-production.up.railway.app/api/products
