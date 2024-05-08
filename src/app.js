@@ -12,7 +12,7 @@ const app = express()
 app.use(cors({ origin: 
     [
         'http://localhost:9000',
-        'https://lumosbarber.netlify.app',
+        'https://lumosbarber.netlify.app/',
     ],
  }))
 
