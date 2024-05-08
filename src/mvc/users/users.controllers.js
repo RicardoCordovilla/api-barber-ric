@@ -12,7 +12,7 @@ const getAllUsers = async () => {
 
 const getAllEmployees = async () => {
     const data = await Users.findAll({
-        // where: { userRoleId: 1 },
+        where: { userRoleId: 3 },
         attributes: ['id', 'name']
     })
     return data

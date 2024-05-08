@@ -1,11 +1,11 @@
 const uuid = require("uuid")
 const Bookings = require("./booking.model")
-const { Op } = require("sequelize")
+const { Op, where } = require("sequelize")
 const Users = require("../users/users.model")
 
 const createBooking = async (req, res) => {
     const booking = req.body
-    const { date, hour, service, customer,phone, employeeId } = booking   // Destructuring    
+    const { date, hour, service, customer, phone, employeeId } = booking   // Destructuring    
     if (!date || !hour || !service || !customer) {
         res.status(400).json({
             message: 'date, hour, service, userId and customer are required',
@@ -35,6 +35,25 @@ const createBooking = async (req, res) => {
     }
 }
 
+const updateBookingHours = async (req, res) => {
+    const booking = req.body
+    id = req.query.id
+    const { hour } = booking
+    if (!hour) {
+        res.status(400).json({
+            message: 'hour is required',
+            fields: {
+                hour: 'string',
+            }
+        })
+    }
+    else {
+        const updatedBooking = await Bookings.update({ hour: hour }, { where: { id: id } })
+        res.status(200).json(updatedBooking)
+    }
+}
+
+
 const updateBooking = async (req, res) => {
     const booking = req.body
     const { date, hour, service, userId } = booking   // Destructuring    
@@ -62,9 +81,13 @@ const updateBooking = async (req, res) => {
     }
 }
 
+
 const deleteBooking = async (req, res) => {
     const { id } = req.params
-    await Bookings.destroy({ id: id }, { return: true }, (err, data) => {
+    await Bookings.destroy({
+        where: { id: id },
+        truncate: false
+    }, (err, data) => {
         if (err) {
             res.status(404).json({ message: 'Booking not found' })
         }
@@ -175,6 +198,7 @@ const getBookingsByCustomerAndDate = async (req, res) => {
 module.exports = {
     createBooking,
     updateBooking,
+    updateBookingHours,
     deleteBooking,
     getAllBookingsByDate,
     getBookingsByUserAndDate,

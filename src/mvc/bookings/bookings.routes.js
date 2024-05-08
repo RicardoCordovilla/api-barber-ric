@@ -124,9 +124,16 @@ router.get('/my', passport.authenticate('jwt', { session: false }), bookingsCont
 
 // ================== ACTUALIZAR UNA RESERVA ==================
 
-router.patch('/:id', bookingsControllers.updateBooking)
+router.patch('/id/:id', bookingsControllers.updateBooking)
 
-// ================== ELIMINAR UNA RESERVA ==================
+// ================== ACTUALIZAR LA HORA DE UNA RESERVA ==================
+
+router.patch('/hour', bookingsControllers.updateBookingHours)
+
+// ================== OBTENER UNA RESERVA ==================
+
+// ================== ACTUALIZAR RESERVAS POR FECHA ESPECIFICA ==================
+
 
 router.delete('/:id', bookingsControllers.deleteBooking)
 

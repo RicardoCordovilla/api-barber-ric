@@ -1,14 +1,76 @@
 # baseUrl = {{$https://api-barber-ric-production.up.railway.app/api/}}
 
-# Register a new user
-POST https://api-barber-ric-production.up.railway.app/api/auth/register
-Content-Type: application/json
 
- {
-    "name": "Angelo",
-    "email": "angelo@email.com",
-    "password": "123456"
-  }
+# Register a new user
+# POST http://localhost:9000/api/auth/register
+# Content-Type: application/json
+
+#  {
+#     "name": "Angelo",
+#     "email": "angelo@email.com",
+#     "password": "123456"
+#   }
+
+
+# Login 
+# POST http://localhost:9000/api/auth/login
+# Content-Type: application/json
+
+# {
+#     "name": "Angelo",
+#     "email": "angelo@email.com",
+#     "password": "123456"
+# }
+
 
 # Get products
 # https://api-barber-ric-production.up.railway.app/api/products
+
+# update bookings by id
+# router.patch('/:id', bookingsControllers.updateBooking)
+# PATCH  http://localhost:9000/api/bookings/hour?id=ffc388ff-8fae-49bf-9f14-2360a522b7da
+# Content-Type: application/json
+
+# {
+#     "hour": "10:00"
+# }
+
+
+# create a new products
+# POST  http://localhost:9000/api/products
+# Content-Type: application/json
+
+# {
+#     "name": "Platinum",
+#     "description": "Corte + lavado + peinado barba + cejas +  limpieza facial con exfoliante, crema hidratante, toalla y masaje + bebida",
+#     "price": 12.0,
+#     "service": true
+# }
+
+# create a new calendar 
+
+POST  http://localhost:9000/api/calendar
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA1YmFjZmY1LTFjOGMtNDg1NS1iNTUyLTZiZjBlNmRjNGIyMiIsImVtYWlsIjoiYW5nZWxvQGVtYWlsLmNvbSIsInVzZXJ0eXBlIjoibm9ybWFsIiwiaWF0IjoxNzE1MTExNTQwfQ.MhVDmJzvfQUwiW-0z7CAAm0Hrl_uwyipCqGGq9vmnB8
+Content-Type: application/json
+
+{
+    "date": "2024-05-07",
+    "hours": [
+        "09:00",
+        "10:00",
+        "11:00",
+        "12:00",
+        "13:00",
+        "14:00",
+        "15:00",
+        "16:00",
+        "17:00",
+        "18:00",
+        "19:00",
+        "20:00"
+    ]
+}
+
+
+
