@@ -6,7 +6,7 @@ const Users = require("../users/users.model")
 const createBooking = async (req, res) => {
     const booking = req.body
     // employeeId = u
-    const { date, hour, service, customer, phone } = booking   // Destructuring    
+    const { date, hour, service, customer, phone, employeeId } = booking   // Destructuring    
     if (!date || !hour || !service || !customer) {
         res.status(400).json({
             message: 'date, hour, service, userId and customer are required',
