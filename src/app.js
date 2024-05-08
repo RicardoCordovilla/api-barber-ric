@@ -8,7 +8,9 @@ const express = require('express')
 const cors = require('cors') // Add this line
 const app = express()
 // settings
-app.use(cors()) // Add this line
+app.use(cors({
+    origin: '*'
+}))
 app.use(express.json())
 
 

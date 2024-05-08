@@ -5,7 +5,8 @@ const Users = require("../users/users.model")
 
 const createBooking = async (req, res) => {
     const booking = req.body
-    const { date, hour, service, customer, phone, employeeId } = booking   // Destructuring    
+    // employeeId = u
+    const { date, hour, service, customer, phone } = booking   // Destructuring    
     if (!date || !hour || !service || !customer) {
         res.status(400).json({
             message: 'date, hour, service, userId and customer are required',
@@ -146,26 +147,23 @@ const getBookingsByUserAndDate = async (req, res) => {
 }
 
 const getMyBookingsByDate = async (req, res) => {
-    const from = req.query.from
-    const to = req.query.to
-    const userId = req.query.userId
+    const date = req.query.date
+    const userId = req.user.id
     const bookings = await Bookings.findAll({
         where: {
-            userId: userId,
-            date: {
-                [Op.between]: [from, to]
-            },
+            employeeId: userId,
+            date: date
         },
         order: [['date', 'ASC'], ['hour', 'ASC']],
         attributes: { exclude: ['createdAt', 'updatedAt'] },
-        include: [
-            {
-                model: Users,
-                as: 'employee',
-                attributes: ['id', 'name', 'email']
-            },
-            'customer'
-        ]
+        // include: [
+        //     {
+        //         model: Users,
+        //         as: 'employee',
+        //         attributes: ['id', 'name', 'email']
+        //     },
+        //     // 'customer'
+        // ]
     })
     res.status(200).json(bookings)
 }

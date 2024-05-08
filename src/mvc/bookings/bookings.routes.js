@@ -113,7 +113,6 @@ router.get('/',
     bookingsControllers.getBookingsByUserAndDate
 )
 
-
 // ================== OBTENER RESERVAS POR CLIENTE ==================
 
 router.get('/customer', passport.authenticate('jwt', { session: false }), bookingsControllers.getBookingsByCustomerAndDate)
