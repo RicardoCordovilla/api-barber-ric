@@ -82,6 +82,13 @@ router.route('/employee')
      */
     .get(calendarControllers.getCalendarsByUser)
 
+router.route('/mydate')
+    .get(
+        passport.authenticate('jwt', { session: false }),
+        calendarControllers.getCalendarByUserDate
+    )
+
+
 router.route('/:id')
 
     // ------------ ACTUALIZAR UN CALENDARIO --------------
@@ -111,7 +118,10 @@ router.route('/:id')
      * type: object
      * $ref: "#/components/schemas/Calendar"
      */
-    .patch(calendarControllers.updateCalendar)
+    .patch(
+        passport.authenticate('jwt', { session: false }),
+        calendarControllers.updateCalendar
+    )
 
     // ------------ ELIMINAR UN CALENDARIO --------------
     /**

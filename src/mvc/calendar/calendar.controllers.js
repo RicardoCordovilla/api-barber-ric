@@ -86,9 +86,32 @@ const getCalendarsByUser = async (req, res) => {
     res.status(200).json(calendar)
 }
 
+const getCalendarByUserDate = async (req, res) => {
+    const userId = req.user.id
+    const date = req.query.date
+    if (!date) {
+        res.status(400).json({
+            message: 'date is required',
+            fields: {
+                date: 'string'
+            }
+        })
+        return
+    }
+    const calendar = await Calendar.findAll({
+        where: {
+            userId: userId,
+            date: date
+        },
+        attributes: ['id', 'date', 'hours'],
+    })
+    res.status(200).json(calendar)
+}
+
 module.exports = {
     createCalendar,
     updateCalendar,
     deleteCalendar,
-    getCalendarsByUser
+    getCalendarsByUser,
+    getCalendarByUserDate
 }
