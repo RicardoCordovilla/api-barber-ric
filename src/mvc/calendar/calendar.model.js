@@ -10,7 +10,7 @@ const Calendar = db.define('calendar', {
     date: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        // unique: true
     },
     hours: {
         type: DataTypes.ARRAY(DataTypes.STRING),

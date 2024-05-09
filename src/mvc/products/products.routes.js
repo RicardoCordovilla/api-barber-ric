@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+const passport = require('passport');
 const productsControllers = require('./products.controllers');
 
 
@@ -101,7 +102,11 @@ router.route('/:id')
     *       404:
     *         description: Prodcuto no encontrado
     */
-    .patch(productsControllers.updateProduct)
-    .delete(productsControllers.deleteProduct)
+    .patch(
+        passport.authenticate('jwt', { session: false }),
+        productsControllers.updateProduct)
+    .delete(
+        passport.authenticate('jwt', { session: false }),
+        productsControllers.deleteProduct)
 
 module.exports = router

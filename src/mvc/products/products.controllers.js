@@ -37,7 +37,7 @@ const getProducts = async (req, res) => {
 const updateProduct = async (req, res) => {
     const id = req.params.id
     const product = req.body
-    const { name, description, price } = product || {}   // Destructuring    
+    const { name, description, price } = product    // Destructuring    
     if (!name) {
         res.status(400).json({
             message: 'name is required',
