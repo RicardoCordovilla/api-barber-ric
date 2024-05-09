@@ -28,7 +28,7 @@ const createCalendar = async (req, res) => {
     } catch (error) {
         console.log(error)
         if (error.name === 'SequelizeUniqueConstraintError') {
-            res.status(400).json({ message: 'This date already exists' })
+            res.status(400).json({ message: 'Fecha y existe' })
         }
         // res.status(400).json({ message: error.message })
     }
