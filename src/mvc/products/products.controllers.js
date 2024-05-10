@@ -65,7 +65,8 @@ const deleteProduct = async (req, res) => {
     const deletedProduct = await Products.destroy({
         where: {
             id: id
-        }
+        },
+        truncate: true
     })
     res.status(200).json({ deletedProduct })
 }
