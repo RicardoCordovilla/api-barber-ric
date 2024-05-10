@@ -17,7 +17,7 @@ app.use(cors({
         'https://lumosbarber.netlify.app/',
 
     ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     // allowedHeaders: ['Content-Type', 'Authorization']
 }))
 
