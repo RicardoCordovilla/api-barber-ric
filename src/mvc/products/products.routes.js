@@ -106,7 +106,7 @@ router.route('/:id')
         passport.authenticate('jwt', { session: false }),
         productsControllers.updateProduct)
     .delete(
-        // passport.authenticate('jwt', { session: false }),
+        passport.authenticate('jwt', { session: false }),
         productsControllers.deleteProduct)
 
 module.exports = router
