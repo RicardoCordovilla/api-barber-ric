@@ -9,9 +9,14 @@ const cors = require('cors') // Add this line
 const app = express()
 // settings
 
-app.use(cors({ origin: 
-    '*'
- }))
+app.use(cors({
+    origin: [
+        'http://localhost:5173',
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+
+}))
 
 
 app.use(express.json())
