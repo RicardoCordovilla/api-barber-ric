@@ -12,7 +12,7 @@ const app = express()
 app.use(cors({
     origin: [
         'http://localhost:5173',
-        'http://192.168.100.200:5173',
+        'http://192.168.100.22:5173',
         'https://lumosbarber.com/',
         'https://lumosbarber.netlify.app/',
 
