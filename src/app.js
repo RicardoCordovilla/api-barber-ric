@@ -9,17 +9,7 @@ const cors = require('cors') // Add this line
 const app = express()
 // settings
 
-app.use(cors({
-    origin: [
-        'http://localhost:5173',
-        'http://192.168.100.22:5173',
-        'https://lumosbarber.com/',
-        'https://lumosbarber.netlify.app/',
-
-    ],
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-    // allowedHeaders: ['Content-Type', 'Authorization']
-}))
+app.use(cors('*'))
 
 
 app.use(express.json())
