@@ -113,9 +113,9 @@ app.use('/api/rates', require('./mvc/rates/rate.routes'))
 app.use('/api/products', require('./mvc/products/products.routes'))
 
 // swagger middleware
-app.use('/api-docs',
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerJsdoc(swaggerSpec)))
+// app.use('/api-docs',
+//     swaggerUi.serve,
+//     swaggerUi.setup(swaggerJsdoc(swaggerSpec)))
 
 app.get('/', (req, res) => {
     res.status(200).json({
