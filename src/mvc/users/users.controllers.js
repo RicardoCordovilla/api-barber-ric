@@ -36,7 +36,7 @@ const createUser = async (data) => {
         email: data.email,
         active: data.active,
         isValidated: data.isValidated,
-        userRoleId: data.userRoleId ? data.userRoleId : 3,
+        userRoleId: data.userRoleId ? data.userRoleId : 1,
         password: hashPassword(data.password)
     })
     return newUser
