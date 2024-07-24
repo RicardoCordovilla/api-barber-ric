@@ -1,62 +1,71 @@
 const cron = require('node-cron');
 const sendWts = require('./notificationService');
-const { getBookingsByDateAndHour, getBookingsByDate, getEmployeePhoneNName } = require('./cronsFetching');
+const { getEmployeesPhoneNName, getBookingsByDateAndEmployee, getBookingDateAndHourByEmployee } = require('./cronsFetching');
 const { format, addMinute, addHour } = require('@formkit/tempo');
 
-const cronEver15min = '*/5 * * * * *'
-const morningHour = '17:40'
+const cronEver15min = '*/15 * * * *'
+const morningHour = '18:55'
+
+const getAllDayBookingsEmployee = (employee) => {
+    const { id, name, phone } = employee
+    let message = `Hola ${name}, estas son tus reservas para hoy: \n`
+    getBookingsByDateAndEmployee(format(new Date(), 'YYYY-MM-DD'), id)
+        .then(bookings => {
+            if (bookings.length === 0) {
+                message = `No tienes reservas para hoy`
+                console.log(`No tienes reservas para hoy`)
+                // sendWts(phone, `No tienes reservas para hoy`)
+            }
+            else {
+                bookings.forEach(booking => {
+                    message += `Hora: ${booking.hour} - Servicio: ${booking.service} - Cliente: ${booking.customer} \n`
+                })
+            }
+            sendWts(phone, message)
+            console.log(phone, message)
+        })
+}
+
+const getNextHourBookingEmployee = (employee, date, hour) => {
+    const formatedDate = format(date, 'YYYY-MM-DD')
+    const { id, name, phone } = employee
+    console.log(`Buscando reservas para ${name} en la siguiente hora: ${hour}`)
+    let message = `Hola ${name}, esta es tu reserva para la siguiente hora: \n`
+    getBookingDateAndHourByEmployee(formatedDate, hour, id)
+        .then(booking => {
+            if (!booking) {
+                return
+                // message = `No tienes reservas para la siguiente hora`
+                // sendWts(phone, `No tienes reservas para la siguiente hora`)
+            }
+            else {
+                message += `Hora: ${booking.hour} - Servicio: ${booking.service} - Cliente: ${booking.customer} \n`
+            }
+            sendWts(phone, message)
+            console.log(phone, message)
+        })
+}
+
+
 
 
 
 const startCrons = () => {
     cron.schedule(cronEver15min, () => {
         const currentDate = new Date()
+        const nextHour = addHour(currentDate, 1)
         const currentOffset = addHour(currentDate, -5)
-        console.log('running a task every 15 minutes');
-        const date = format(currentOffset, 'YYYY-MM-DD')
-        const hourMinusOne = format(addMinute(currentOffset, 60), 'HH:mm')
-        console.log(date, hourMinusOne)
-        // get bookings for today, check if there are any bookings for the current hour -1 hour and send a reminder
-        getBookingsByDateAndHour(date, hourMinusOne)
-            .then(booking => {
-                console.log(booking)
-                if (booking) {
-                    console.log(booking)
-                    const employeeId = booking.employeeId
-                    const employee = getEmployeePhoneNName(employeeId)
-                        .then(employee => {
-                            console.log(employee)
-                            const message = `Hola  ${employee.name}, hoy tienes una cita con ${booking.customer} a las ${booking.hour}`
-                            sendWts(employee.phone, message)
-                        })
-                        .catch(err => console.log(err))
-                }
-            })
-
-        const currentHour= format(currentOffset, 'HH:mm')
-        console.log(currentHour)
-        if (format(currentOffset, 'HH:mm') === morningHour) {
-            console.log('sending morning messages........................')
-            getBookingsByDate(date)
-                .then(bookings => {
-                    console.log(bookings)
-                    bookings.forEach(booking => {
-                        const employeeId = booking.employeeId
-                        const employee = getEmployeePhoneNName(employeeId)
-                            .then(employee => {
-                                console.log(employee)
-                                const message = `Hola  ${employee.name}, hoy tienes una cita con ${booking.customer} a las ${booking.hour}`
-                                sendWts(employee.phone, message)
-                            })
-                            .catch(err => console.log(err))
-                    })
+        let employees
+        getEmployeesPhoneNName()
+            .then(employees => {
+                employees.forEach(employee => {
+                    if (format(currentOffset, 'HH:mm') === morningHour)
+                        getAllDayBookingsEmployee(employee)
+                    getNextHourBookingEmployee(employee, currentDate, format(nextHour, 'HH:mm'))
                 })
-        }
-
-    });
-
-
-
+            })
+            .catch(err => { console.log(err) })
+    })
 }
 
 module.exports = startCrons

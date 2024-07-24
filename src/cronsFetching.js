@@ -2,31 +2,40 @@
 const Bookings = require('./mvc/bookings/booking.model')
 const Users = require('./mvc/users/users.model')
 
-const getBookingsByDateAndHour = async (date, hour) => {
-    const booking = await Bookings.findOne({
+
+const getEmployeesPhoneNName = async () => {
+    const employees = await Users.findAll({
         where: {
-            date: date,
-            hour: hour
+            userRoleId: 3
         },
-        order: [['date', 'ASC'], ['hour', 'ASC']],
+        attributes: ['id', 'phone', 'name']
     })
-    return JSON.parse(JSON.stringify(booking))
+    return JSON.parse(JSON.stringify(employees))
 }
 
-const getBookingsByDate = async (date) => {
+const getBookingsByDateAndEmployee = async (date, employeeId) => {
     const booking = await Bookings.findAll({
         where: {
-            date: date
+            date: date,
+            employeeId: employeeId
         },
         order: [['hour', 'ASC']],
     })
     return JSON.parse(JSON.stringify(booking))
 }
 
-const getEmployeePhoneNName = async (employeeId) => {
-    const employee = await Users.findByPk(employeeId)
-    const { phone, name } = employee
-    return { phone, name }
+const getBookingDateAndHourByEmployee = async (date, hour, employeeId) => {
+    const booking = await Bookings.findOne({
+        where: {
+            date: date,
+            hour: hour,
+            employeeId: employeeId
+        },
+        order: [['hour', 'ASC']],
+    })
+    return JSON.parse(JSON.stringify(booking))
 }
 
-module.exports = { getBookingsByDateAndHour, getBookingsByDate, getEmployeePhoneNName }
+
+
+module.exports = { getEmployeesPhoneNName, getBookingsByDateAndEmployee, getBookingDateAndHourByEmployee }
