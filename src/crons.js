@@ -5,10 +5,10 @@ const { format, addMinute, offset,removeOffset, addHour } = require('@formkit/te
 
 // const cronEver15 = '*/30 * * * * *'
 const cronEver15 = '0,15,30,45 * * * *'
-const cronEveryMorning = '40 16 * * *'
+const cronEveryMorning = '10 17 * * *'
 
 const currentDate = new Date()
-const currentOffset = addHour(currentDate, -6)
+const currentOffset = addHour(currentDate, -5)
 
 
 
@@ -55,14 +55,6 @@ const startCrons = () => {
                 })
             })
     });
-
-    cron.schedule('*/5 * * * * *', () => {
-        console.log('running a task every 5 seconds');
-        const date = format(currentOffset, 'YYYY-MM-DD')
-        const hour= format(currentOffset, 'HH:mm')
-        console.log(date, hour)
-    });
-
 
 
 }
