@@ -5,7 +5,7 @@ const { format, addMinute } = require('@formkit/tempo');
 
 // const cronEver15 = '*/30 * * * * *'
 const cronEver15 = '0,15,30,45 * * * *'
-const cronEveryMorning = '10 16 * * *'
+const cronEveryMorning = '20 16 * * *'
 
 
 const startCrons = () => {
