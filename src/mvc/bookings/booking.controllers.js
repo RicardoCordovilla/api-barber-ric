@@ -201,5 +201,5 @@ module.exports = {
     getAllBookingsByDate,
     getBookingsByUserAndDate,
     getMyBookingsByDate,
-    getBookingsByCustomerAndDate
+    getBookingsByCustomerAndDate,
 }
