@@ -1,14 +1,15 @@
 const cron = require('node-cron');
 const sendWts = require('./notificationService');
 const { getBookingsByDateAndHour, getBookingsByDate, getEmployeePhoneNName } = require('./cronsFetching');
-const { format, addMinute, offset } = require('@formkit/tempo');
+const { format, addMinute, offset,removeOffset, addHour } = require('@formkit/tempo');
 
 // const cronEver15 = '*/30 * * * * *'
 const cronEver15 = '0,15,30,45 * * * *'
 const cronEveryMorning = '40 16 * * *'
 
 const currentDate = new Date()
-const currentOffset = offset(currentDate, 'America/Guayaquil')
+const currentOffset = addHour(currentDate, -6)
+
 
 
 const startCrons = () => {
@@ -58,8 +59,8 @@ const startCrons = () => {
     cron.schedule('*/5 * * * * *', () => {
         console.log('running a task every 5 seconds');
         const date = format(currentOffset, 'YYYY-MM-DD')
-        const hourMinusOne = format(addMinute(currentOffset, 60), 'HH:mm')
-        console.log(date, hourMinusOne)
+        const hour= format(currentOffset, 'HH:mm')
+        console.log(date, hour)
     });
 
 
