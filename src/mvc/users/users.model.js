@@ -25,6 +25,11 @@ const Users = db.define('users', {
         unique: true,
         validate: { isEmail: true }
     },
+    phone: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true
+    },
     password: {
         type: DataTypes.STRING,
         allowNull: false,
