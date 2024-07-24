@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 const sendWts = require('./notificationService');
 const { getBookingsByDateAndHour, getBookingsByDate, getEmployeePhoneNName } = require('./cronsFetching');
-const { format, addMinute, offset,removeOffset, addHour } = require('@formkit/tempo');
+const { format, addMinute, addHour } = require('@formkit/tempo');
 
 // const cronEver15 = '*/30 * * * * *'
 const cronEver15 = '0,15,30,45 * * * *'
