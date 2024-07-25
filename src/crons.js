@@ -4,7 +4,7 @@ const { getEmployeesPhoneNName, getBookingsByDateAndEmployee, getBookingDateAndH
 const { format, addMinute, addHour } = require('@formkit/tempo');
 
 const cronEver15min = '*/15 * * * *'
-const morningHour = '19:29'
+const morningHour = '19:30'
 
 const getAllDayBookingsEmployee = (date, employee) => {
     const { id, name, phone } = employee
