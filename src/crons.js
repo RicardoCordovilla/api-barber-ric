@@ -6,10 +6,10 @@ const { format, addMinute, addHour } = require('@formkit/tempo');
 const cronEver15min = '*/1 * * * *'
 const morningHour = '19:18'
 
-const getAllDayBookingsEmployee = (employee) => {
+const getAllDayBookingsEmployee = (date, employee) => {
     const { id, name, phone } = employee
     let message = `Hola ${name}, estas son tus reservas para hoy: \n`
-    getBookingsByDateAndEmployee(format(new Date(), 'YYYY-MM-DD'), id)
+    getBookingsByDateAndEmployee(date, id)
         .then(bookings => {
             if (bookings.length === 0) {
                 message = `No tienes reservas para hoy`
@@ -56,13 +56,13 @@ const startCrons = () => {
         const currentDate = new Date()
         const localCurrentDate = addHour(currentDate, -5)
         const nextHour = addHour(localCurrentDate, 1)
-        
-        let employees
+        const formatedLocalCurrentDate = format(localCurrentDate, 'YYYY-MM-DD')
+
         getEmployeesPhoneNName()
             .then(employees => {
                 employees.forEach(employee => {
                     if (format(localCurrentDate, 'HH:mm') === morningHour)
-                        getAllDayBookingsEmployee(employee)
+                        getAllDayBookingsEmployee(formatedLocalCurrentDate, employee)
                     getNextHourBookingEmployee(employee, localCurrentDate, format(nextHour, 'HH:mm'))
                 })
             })
