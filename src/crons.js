@@ -56,7 +56,7 @@ const startCrons = () => {
     cron.schedule(cronEver15min, () => {
         const currentDate = new Date()
         const localCurrentDate = addHour(currentDate, -5)
-        const nextHour = addHour(localCurrentDate, 1)
+        const nextHour = addMinute(localCurrentDate, 45)
         const formatedLocalCurrentDate = format(localCurrentDate, 'YYYY-MM-DD')
 
         getEmployeesPhoneNName()
