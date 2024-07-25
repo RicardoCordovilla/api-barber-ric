@@ -4,7 +4,7 @@ const { getEmployeesPhoneNName, getBookingsByDateAndEmployee, getBookingDateAndH
 const { format, addMinute, addHour } = require('@formkit/tempo');
 
 const cronEver15min = '*/1 * * * *'
-const morningHour = '19:15'
+const morningHour = '19:18'
 
 const getAllDayBookingsEmployee = (employee) => {
     const { id, name, phone } = employee
@@ -21,7 +21,7 @@ const getAllDayBookingsEmployee = (employee) => {
                     message += `Hora: ${booking.hour} - Servicio: ${booking.service} - Cliente: ${booking.customer} \n`
                 })
             }
-            sendWts(phone, message)
+            // sendWts(phone, message)
             console.log(phone, message)
         })
 }
@@ -41,8 +41,9 @@ const getNextHourBookingEmployee = (employee, date, hour) => {
             else {
                 message += `Hora: ${booking.hour} - Servicio: ${booking.service} - Cliente: ${booking.customer} \n`
             }
-            sendWts(phone, message)
+            // sendWts(phone, message)
             console.log(phone, message)
+            return
         })
 }
 
