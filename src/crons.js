@@ -8,6 +8,7 @@ const morningHour = '19:18'
 
 const getAllDayBookingsEmployee = (date, employee) => {
     const { id, name, phone } = employee
+    console.log(`Buscando reservas para ${name} hoy: ${date}`)
     let message = `Hola ${name}, estas son tus reservas para hoy: \n`
     getBookingsByDateAndEmployee(date, id)
         .then(bookings => {
