@@ -3,8 +3,8 @@ const sendWts = require('./notificationService');
 const { getEmployeesPhoneNName, getBookingsByDateAndEmployee, getBookingDateAndHourByEmployee } = require('./cronsFetching');
 const { format, addMinute, addHour } = require('@formkit/tempo');
 
-const cronEver15min = '*/1 * * * *'
-const morningHour = '19:23'
+const cronEver15min = '*/15 * * * *'
+const morningHour = '19:25'
 
 const getAllDayBookingsEmployee = (date, employee) => {
     const { id, name, phone } = employee
@@ -15,14 +15,14 @@ const getAllDayBookingsEmployee = (date, employee) => {
             if (bookings.length === 0) {
                 message = `No tienes reservas para hoy`
                 console.log(`No tienes reservas para hoy`)
-                // sendWts(phone, `No tienes reservas para hoy`)
+                sendWts(phone, `No tienes reservas para hoy`)
             }
             else {
                 bookings.forEach(booking => {
                     message += `Hora: ${booking.hour} - Servicio: ${booking.service} - Cliente: ${booking.customer} \n`
                 })
             }
-            // sendWts(phone, message)
+            sendWts(phone, message)
             console.log(phone, message)
         })
 }
@@ -42,7 +42,7 @@ const getNextHourBookingEmployee = (employee, date, hour) => {
             else {
                 message += `Hora: ${booking.hour} - Servicio: ${booking.service} - Cliente: ${booking.customer} \n`
             }
-            // sendWts(phone, message)
+            sendWts(phone, message)
             console.log(phone, message)
             return
         })
