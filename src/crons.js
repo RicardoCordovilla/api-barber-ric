@@ -3,8 +3,8 @@ const sendWts = require('./notificationService');
 const { getEmployeesPhoneNName, getBookingsByDateAndEmployee, getBookingDateAndHourByEmployee } = require('./cronsFetching');
 const { format, addMinute, addHour } = require('@formkit/tempo');
 
-const cronEver15min = '*/15 * * * *'
-const morningHour = '19:05'
+const cronEver15min = '*/1 * * * *'
+const morningHour = '19:10'
 
 const getAllDayBookingsEmployee = (employee) => {
     const { id, name, phone } = employee
@@ -53,15 +53,16 @@ const getNextHourBookingEmployee = (employee, date, hour) => {
 const startCrons = () => {
     cron.schedule(cronEver15min, () => {
         const currentDate = new Date()
-        const nextHour = addHour(currentDate, 1)
-        const currentOffset = addHour(currentDate, -5)
+        const localCurrentDate = addHour(currentDate, -5)
+        const nextHour = addHour(localCurrentDate, 1)
+        
         let employees
         getEmployeesPhoneNName()
             .then(employees => {
                 employees.forEach(employee => {
-                    if (format(currentOffset, 'HH:mm') === morningHour)
+                    if (format(localCurrentDate, 'HH:mm') === morningHour)
                         getAllDayBookingsEmployee(employee)
-                    getNextHourBookingEmployee(employee, currentDate, format(nextHour, 'HH:mm'))
+                    getNextHourBookingEmployee(employee, localCurrentDate, format(nextHour, 'HH:mm'))
                 })
             })
             .catch(err => { console.log(err) })
