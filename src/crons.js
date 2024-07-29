@@ -5,7 +5,7 @@ const { format, addMinute, addHour } = require('@formkit/tempo');
 
 const cronEver15min = '*/10 * * * * *'
 // const cronEver15min = '*/15 * * * *'
-const morningHour = '16:55'
+const morningHour = '18:00'
 
 const getAllDayBookingsEmployee = (date, employee) => {
     const { id, name, phone } = employee
@@ -59,8 +59,8 @@ const startCrons = () => {
         const localCurrentDate = addHour(currentDate, -5)
         const nextHour = addMinute(localCurrentDate, 45)
         const formatedLocalCurrentDate = format(localCurrentDate, 'YYYY-MM-DD')
-        console.log(`Cron job running at ${format(localCurrentDate, 'HH:mm:ss')}`)
-        console.log(`Next hour: ${format(nextHour, 'HH:mm:ss')}`)
+        console.log(`Cron job running at ${format(localCurrentDate, 'HH:mm')}`)
+        console.log(`Next hour: ${format(nextHour, 'HH:mm')}`)
         console.log(`Morning hour: ${morningHour}`)
 
         getEmployeesPhoneNName()
