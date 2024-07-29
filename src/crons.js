@@ -59,6 +59,9 @@ const startCrons = () => {
         const localCurrentDate = addHour(currentDate, -5)
         const nextHour = addMinute(localCurrentDate, 45)
         const formatedLocalCurrentDate = format(localCurrentDate, 'YYYY-MM-DD')
+        console.log(`Cron job running at ${format(localCurrentDate, 'HH:mm:ss')}`)
+        console.log(`Next hour: ${format(nextHour, 'HH:mm:ss')}`)
+        console.log(`Morning hour: ${morningHour}`)
 
         getEmployeesPhoneNName()
             .then(employees => {
