@@ -3,7 +3,8 @@ const sendWts = require('./notificationService');
 const { getEmployeesPhoneNName, getBookingsByDateAndEmployee, getBookingDateAndHourByEmployee } = require('./cronsFetching');
 const { format, addMinute, addHour } = require('@formkit/tempo');
 
-const cronEver15min = '*/15 * * * *'
+const cronEver15min = '*/10 * * * * *'
+// const cronEver15min = '*/15 * * * *'
 const morningHour = '16:55'
 
 const getAllDayBookingsEmployee = (date, employee) => {
