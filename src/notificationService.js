@@ -21,7 +21,7 @@ const bodyTemplate = (type, date, hour, message,phone) => {
                         {
                             type: "text",
                             // text: "Reservas de hoy: " + date
-                            text: type === 0 ? "Reservas de hoy: " + date : hour
+                            text: type === 0 ? "Citas de hoy: " + date : hour
                         }
                     ]
                 },
