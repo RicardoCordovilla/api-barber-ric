@@ -21,7 +21,7 @@ const bodyTemplate = (type, date, hour, message) => {
                         {
                             type: "text",
                             // text: "Reservas de hoy: " + date
-                            text: type === 0 ? "Reservas de hoy: " + date : + hour
+                            text: type === 0 ? "Reservas de hoy: " + date : hour
                         }
                     ]
                 },
@@ -41,7 +41,9 @@ const bodyTemplate = (type, date, hour, message) => {
 
 const sendWts = async (phone, date, hour, message) => {
     const url = process.env.WTS_URL + process.env.WTS_NUMBERID + '/messages'
-    const type = date ? 0 : 1
+    const type = date !== null ? 0 : 1
+    console.log('date', date)
+    console.log('type', type)
     const body = bodyTemplate(type, date, hour, message)
     console.log(url, JSON.stringify(body))
     try {
