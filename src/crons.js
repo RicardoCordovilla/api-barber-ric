@@ -3,47 +3,45 @@ const sendWts = require('./notificationService');
 const { getEmployeesPhoneNName, getBookingsByDateAndEmployee, getBookingDateAndHourByEmployee } = require('./cronsFetching');
 const { format, addMinute, addHour } = require('@formkit/tempo');
 
-const cronEver15min = '*/30 * * * * *'
-// const cronEver15min = '*/15 * * * *'
-const morningHour = '19:00'
+// const cronEver15min = '15 * * * * *'
+const cronEver15min = '*/15 * * * *'
+const morningHour = '18:30'
+// const morningHour = '18:22'
 
-const getAllDayBookingsEmployee = (date, employee) => {
+const getAllDayBookingsEmployee = (date, formatedDate, employee) => {
     const { id, name, phone } = employee
     console.log(`Buscando reservas para ${name} hoy: ${date}`)
-    let message = `Hola ${name}, estas son tus reservas para hoy: \n`
+    let message = ""
     getBookingsByDateAndEmployee(date, id)
         .then(bookings => {
             if (bookings.length === 0) {
-                message = `No tienes reservas para hoy`
-                console.log(`No tienes reservas para hoy`)
-                sendWts(phone, `No tienes reservas para hoy`)
+                console.log(`No tienes reservas para hoy ${date}`)
+                // sendWts(phone, formatedDate, null, `No tienes reservas para hoy`)
             }
             else {
                 bookings.forEach(booking => {
-                    message += `Hora: ${booking.hour} - Servicio: ${booking.service} - Cliente: ${booking.customer} \n`
+                    message += `Hora: ${booking.hour} - Servicio: ${booking.service} - Cliente: ${booking.customer}`
                 })
+                sendWts(phone, formatedDate, null, message)
             }
-            sendWts(phone, message)
-            console.log(phone, message)
         })
 }
 
 const getNextHourBookingEmployee = (employee, date, hour) => {
-    const formatedDate = format(date, 'YYYY-MM-DD')
     const { id, name, phone } = employee
-    console.log(`Buscando reservas para ${name} en la siguiente hora: ${hour}`)
-    let message = `Hola ${name}, esta es tu reserva para la siguiente hora: \n`
-    getBookingDateAndHourByEmployee(formatedDate, hour, id)
+    console.log('-----------------------------------', 'getNextHourBookingEmployee', '-----------------------------------')
+    console.log(`Buscando reservas para ${name} en la siguiente hora: ${hour}, ${date}`)
+    let message = ""
+    getBookingDateAndHourByEmployee(date, hour, id)
         .then(booking => {
             if (!booking) {
                 return
                 // message = `No tienes reservas para la siguiente hora`
-                // sendWts(phone, `No tienes reservas para la siguiente hora`)
             }
             else {
-                message += `Hora: ${booking.hour} - Servicio: ${booking.service} - Cliente: ${booking.customer} \n`
+                message += `Cliente: ${booking.customer}-Servicio: ${booking.service}`
             }
-            sendWts(phone, message)
+            sendWts(phone, null, hour, message)
             console.log(phone, message)
             return
         })
@@ -59,6 +57,7 @@ const startCrons = () => {
         const localCurrentDate = addHour(currentDate, -5)
         const nextHour = addMinute(localCurrentDate, 45)
         const formatedLocalCurrentDate = format(localCurrentDate, 'YYYY-MM-DD')
+        const formatedDate = format(localCurrentDate, 'dddd DD/MMM', 'es')
         console.log(`Cron job running at ${format(localCurrentDate, 'HH:mm')}`)
         console.log(`Next hour: ${format(nextHour, 'HH:mm')}`)
         console.log(`Morning hour: ${morningHour}`)
@@ -67,8 +66,8 @@ const startCrons = () => {
             .then(employees => {
                 employees.forEach(employee => {
                     if (format(localCurrentDate, 'HH:mm') === morningHour)
-                        getAllDayBookingsEmployee(formatedLocalCurrentDate, employee)
-                    getNextHourBookingEmployee(employee, localCurrentDate, format(nextHour, 'HH:mm'))
+                        getAllDayBookingsEmployee(formatedLocalCurrentDate, formatedDate, employee)
+                    getNextHourBookingEmployee(employee, formatedLocalCurrentDate, format(nextHour, 'HH:mm'))
                 })
             })
             .catch(err => { console.log(err) })
